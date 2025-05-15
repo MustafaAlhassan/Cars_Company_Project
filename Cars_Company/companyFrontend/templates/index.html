@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<h1 class="p-relative">Dashboard</h1>
+<section class="wrapper d-grid gap-20">
+  <!-- Start Statistics -->
+  <div class="tickets p-20 bg-white bor-rad-10">
+    <h2 class="mt-0 mb-10">Statistics</h2>
+    <p class="mt-0 mb-20 fc-grey">Everything About Statistics</p>
+    <div class="d-flex txt-ali-c gap-20 f-wrap">
+      <div class="box p-20 bor-rad-10 fs-14 fc-grey">
+        <i class="fa-regular fa-rectangle-list fa-2x mb-10 fc-orange"></i>
+        <span class="d-block fc-black fw-bold fs-25 mb-5">{{total_sold_cars}}</span>
+        <span>cars sold</span>
+      </div>
+      <div class="box p-20 bor-rad-10 fs-14 fc-grey">
+        <i class="fa-solid fa-spinner fa-2x mb-10 fc-green"></i>
+        <span class="d-block fc-black fw-bold fs-25 mb-5">{{total_exist_cars}}</span>
+        <span>Existing cars</span>
+      </div>
+      <div class="box p-20 bor-rad-10 fs-14 fc-grey">
+        <i class="fa-regular fa-circle-check fa-2x mb-10 fc-blue"></i>
+        <span class="d-block fc-black fw-bold fs-25 mb-5">{{total_profits}} $</span>
+        <span>profits</span>
+      </div>
+    </div>
+  </div>
+  <!-- End Statistics -->
+  <!-- Start Top Sold Cars -->
+  <div class="top-search p-20 bg-white bor-rad-10">
+    <h2 class="mt-0 mb-20">Top 5 Sold Cars</h2>
+    <div class="box d-flex space-between mb-20 fc-grey">
+      <span>Cars Name</span>
+      <span>Quantity</span>
+    </div>
+    {% for car in top_sold_cars %}
+    <div class="box d-flex space-between">
+      <span>{{ car.car_name }}</span>
+      <span class="bg-eee btn-shape fs-14">{{ car.count }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- End Top Searsh Word Widget -->
+</section>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="{% static 'css/normalize.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/main.css'%}" />
+    <!-- Font Awesome Library -->
+    <link rel="stylesheet" href="{% static 'css/all.min.css'%}" />
+    <!-- Google Fonts Library -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="login-page">
+      <div class="overlay"></div>
+      <div class="page-content">
+        <div class="info-side">
+          <div class="info">
+            <h1 class="logo">Logo</h1>
+            <h2>Login Page</h2>
+            <p>Sign in to Continue</p>
+            <a href="#">Learn More</a>
+          </div>
+        </div>
+        <div class="form-side">
+          <form class="form" method="POST" action="">
+            {% csrf_token %}
+            <p class="form-title">Sign in to your account</p>
+            <div class="input-container">
+                <input type="email" name="email" placeholder="Enter email" required />
+                <span> </span>
+            </div>
+            <div class="input-container">
+                <input type="password" name="password" placeholder="Enter password" required />
+            </div>
+            {% if error %}
+            <div class="error-message">
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+            <button type="submit" class="submit">Login in</button>
+        </form>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'js/main.js'%}"></script>
+  </body>
+</html>

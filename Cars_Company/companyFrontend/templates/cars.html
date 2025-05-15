@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<section class="w-full">
+  <h1 class="p-relative">Cars</h1>
+  <!-- Start Cars Table -->
+  <div class="projects p-20 bg-white bor-rad-10 m-20">
+    <h2 class="mt-0 mb-20">Cars</h2>
+    <div class="responsive-table">
+      <table class="fs-15 w-full">
+        <thead>
+          <tr>
+            <td>Car Name</td>
+            <td>Year of Manufacture</td>
+            <td>Type</td>
+            <td>Chassis</td>
+            <td>Color</td>
+            <td>State</td>
+            <td>Metric</td>
+            <td>Purchase Price</td>
+            <td>Date of Purchase</td>
+            <td>Location</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cars %} {% if not item.SellingPrice %}
+          <tr>
+            <td>{{ item.car_name }}</td>
+            <td>{{ item.year_manufacture }}</td>
+            <td>{{ item.car_type }}</td>
+            <td>{{ item.chassis }}</td>
+            <td>{{ item.car_color }}</td>
+            <td>{{ item.car_state }}</td>
+            <td>{{ item.car_metric }}KM</td>
+            <td>{{ item.PurchasePrice }}$</td>
+            <td>{{ item.PurchaseDateTime|date:"d-m-Y" }}</td>
+            <td>
+              {% for inv in inventory %}
+                {% if inv.car_id == item.car_id %}
+                  {{ inv.location }}
+                {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+          {% endif %} {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- End Cars Table -->
+</section>
+{% endblock %}

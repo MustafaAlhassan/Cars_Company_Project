@@ -1,0 +1,210 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<h1 class="p-relative">Manage Cars</h1>
+<section class="wrapper d-grid gap-20">
+  <!-- Start Manage -->
+  <div class="manage p-20 bg-white bor-rad-10">
+    <h2 class="mt-0 mb-10">Add Car</h2>
+    <form method="POST" action="{% url 'companyFrontend:add_car' %}">
+      {% csrf_token %}
+      <div class="box">
+        <label>Car Name</label>
+        <input type="text" name="car_name" required />
+      </div>
+      <div class="box">
+        <label>Year of manufacture</label>
+        <input type="number" name="year_manufacture" />
+      </div>
+      <div class="box">
+        <label>Type</label>
+        <input type="text" name="car_type" />
+      </div>
+      <div class="box">
+        <label>Chassis</label>
+        <input type="text" name="chassis" required />
+      </div>
+      <div class="box">
+        <label>Color</label>
+        <input type="text" name="car_color" />
+      </div>
+      <div class="box">
+        <label>State</label>
+        <input type="text" name="car_state" />
+      </div>
+      <div class="box">
+        <label>Metric (KM)</label>
+        <input type="text" name="car_metric" />
+      </div>
+      <div class="box">
+        <label>Purchase Price ($)</label>
+        <input type="number" name="purchase_price" required/>
+      </div>
+      <div class="box">
+        <label>Purchase Date</label>
+        <input type="date" name="purchase_date" required/>
+      </div>
+      <div class="box">
+        <label>Location</label>
+        <select name="location" required>
+          <option value="">Select a location</option>
+          <option value="Selmani">Selmani</option>
+          <option value="Erbil">Erbil</option>
+          <option value="Duhok">Duhok</option>
+        </select>
+      </div>
+      {% if car_added %}
+      <div class="success-message">
+        <span>{{ car_added }}</span>
+      </div>
+      {% endif %}
+      {% if car_not_added %}
+      <div class="error-message">
+        <span>{{ car_not_added }}</span>
+      </div>
+      {% endif %}
+      <input type="submit" class="btn-shape-blue" value="Add Car" />
+    </form>
+  </div>
+  <div>
+    <div class="manage p-20 bg-white bor-rad-10">
+      <h2 class="mt-0 mb-10">Remove Car</h2>
+      <form method="POST" action="{% url 'companyFrontend:remove_car' %}">
+        {% csrf_token %}
+        <div class="box">
+          <label for="chassis">Car Chassis</label>
+          <input type="text" name="chassis" required />
+        </div>
+        {% if car_not_removed %}
+        <div class="error-message">
+          <span>{{ car_not_removed }}</span>
+        </div>
+        {% endif %}
+        {% if car_removed %}
+        <div class="success-message">
+          <span>{{ car_removed }}</span>
+        </div>
+        {% endif %}
+        <input type="submit" class="btn-shape-red" value="Remove" />
+      </form>
+    </div>
+    <div class="manage p-20 mt-20 bg-white bor-rad-10">
+      <h2 class="mt-0 mb-10">Sold Car</h2>
+      <form method="POST" action="{% url 'companyFrontend:sold_car' %}">
+        {% csrf_token %}
+        <div class="box">
+          <label for="chassis">Car Chassis</label>
+          <input type="text" name="chassis" required />
+        </div>
+        <div class="box">
+          <label for="selling_price">Selling Price ($)</label>
+          <input type="number" name="selling_price" required />
+        </div>
+        <div class="box">
+          <label for="selling_date">Date of Selling</label>
+          <input type="date" name="selling_date" required />
+        </div>
+        {% if car_not_sold %}
+        <div class="error-message">
+          <span>{{ car_not_sold }}</span>
+        </div>
+        {% endif %}
+        {% if car_sold %}
+        <div class="success-message">
+          <span>{{ car_sold }}</span>
+        </div>
+        {% endif %}
+        <input type="submit" class="btn-shape-blue" value="Mark as Sold" />
+      </form>
+    </div>
+  </div>
+  <div class="manage p-20 bg-white bor-rad-10">
+    <h2 class="mt-0 mb-10">Modify Car</h2>
+    <!-- Search Form -->
+    <form method="post" action="{% url 'companyFrontend:modify_car' %}">
+    {% csrf_token %}
+      <div class="box">
+      <label>Chassis</label>
+        <input type="text" name="chassis" value="{{ car.chassis|default_if_none:'' }}" required />
+      </div>
+      <input type="submit" class="btn-shape-blue mt-10" name="search" value="Find Car" />
+      {% if car_modified %}
+      <div class="success-message">
+        <span>{{ car_modified }}</span>
+      </div>
+      {% endif %}
+      {% if car_not_modified %}
+      <div class="error-message">
+        <span>{{ car_not_modified }}</span>
+      </div>
+      {% endif %}
+    </form>
+    {% if car %}
+      <form method="post" action="{% url 'companyFrontend:modify_car' %}">
+        {% csrf_token %}
+        <input type="hidden" name="chassis" value="{{ car.chassis }}" />
+        <div class="box">
+          <label>Car Name</label>
+          <input type="text" name="car_name" value="{{ car.car_name }}" required />
+        </div>
+        <div class="box">
+          <label>Year of manufacture</label>
+          <input type="number" name="year_manufacture" value="{{ car.year_manufacture }}"/>
+        </div>
+        <div class="box">
+          <label>Type</label>
+          <input type="text" name="car_type" value="{{ car.car_type }}" required />
+        </div>
+        <div class="box">
+          <label>Chassis</label>
+          <input type="text" name="chassis" value="{{ car.chassis }}" required />
+        </div>
+        <div class="box">
+          <label>Color</label>
+          <input type="text" name="car_color" value="{{ car.car_color }}" required />
+        </div>
+        <div class="box">
+          <label>State</label>
+          <input type="text" name="car_state" value="{{ car.car_state }}" required />
+        </div>
+        <div class="box">
+          <label>Metric (KM)</label>
+          <input type="text" name="car_metric" value="{{ car.car_metric }}" required/>
+        </div>
+        <div class="box">
+          <label>Purchase Price ($)</label>
+          <input type="number" name="purchase_price" value="{{ car.PurchasePrice }}" required/>
+        </div>
+        {% if car.SellingPrice %}
+        <div class="box">
+          <label>Selling Price ($)</label>
+          <input type="number" name="selling_price" value="{{ car.SellingPrice }}" required/>
+        </div>
+        {% endif %}
+        <div class="box">
+          <label>Purchase Date</label>
+          <input type="date" name="purchase_date" value="{{ car.PurchaseDateTime|date:'Y-m-d' }}" required/>
+        </div>
+        {% if car.SellingDateTime %}
+        <div class="box">
+          <label>Selling Date</label>
+          <input type="date" name="selling_date" value="{{ car.SellingDateTime|date:'Y-m-d' }}" required/>
+        </div>
+        {% endif %}
+        <div class="box">
+          <label>Location</label>
+          <select name="location" required>
+            <option value="">Select a location</option>
+            <option value="Selmani" {% if location == "Selmani" %}selected{% endif %}>Selmani</option>
+            <option value="Erbil" {% if location == "Erbil" %}selected{% endif %}>Erbil</option>
+            <option value="Duhok" {% if location == "Duhok" %}selected{% endif %}>Duhok</option>
+          </select>
+        </div>
+        <!-- Repeat for other fields, pre-filling with car data -->
+        <input type="submit" class="btn-shape-blue" name="update" value="Update Car" />
+      </form>
+    {% endif %}
+  </div>
+  <!-- End Manage -->
+</section>
+
+{% endblock %}

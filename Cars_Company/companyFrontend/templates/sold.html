@@ -1,0 +1,54 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<h1 class="p-relative">Sold Cars</h1>
+<!-- Start Cars Table -->
+<div class="projects p-20 bg-white bor-rad-10 m-20">
+  <h2 class="mt-0 mb-20">Cars</h2>
+  <div class="responsive-table">
+    <table class="fs-15 w-full">
+      <thead>
+        <tr>
+          <td>Car Name</td>
+          <td>Year of Manufacture</td>
+          <td>Type</td>
+          <td>Chassis</td>
+          <td>Color</td>
+          <td>State</td>
+          <td>Metric</td>
+          <td>Purchase Price</td>
+          <td>Sold Price</td>
+          <td>Date of Purchase</td>
+          <td>Date of Sold</td>
+          <td>Location</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for car in cars %} {% if car.SellingPrice %}
+        <tr>
+          <td>{{ car.car_name }}</td>
+          <td>{{ car.year_manufacture }}</td>
+          <td>{{ car.car_type }}</td>
+          <td>{{ car.chassis }}</td>
+          <td>{{ car.car_color }}</td>
+          <td>{{ car.car_state }}</td>
+          <td>{{ car.car_metric }}KM</td>
+          <td>{{ car.PurchasePrice }}$</td>
+          <td>{{ car.SellingPrice }}$</td>
+          <td>{{ car.PurchaseDateTime|date:"d-m-Y" }}</td>
+          <td>{{ car.SellingDateTime|date:"d-m-Y" }}</td>
+          <td>
+            {% for inv in inventory %}
+              {% if inv.car_id == car.car_id %}
+                {{ inv.location }}
+              {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+        {% endif %} {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- End Cars Table -->
+
+{% endblock %}

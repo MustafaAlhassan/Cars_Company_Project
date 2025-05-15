@@ -1,0 +1,102 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<h1 class="p-relative">Settings</h1>
+<section class="wrapper d-grid gap-20">
+  <!-- Start Settings -->
+  <div class="manage p-20 bg-white bor-rad-10">
+    <h2 class="mt-0 mb-10">Change Password</h2>
+    <form method="POST" action="{% url 'companyFrontend:change_password' %}">
+        {% csrf_token %}
+        <div class="box">
+            <label>Current Password</label>
+            <input type="password" name="current_password" class="form-control" required>
+        </div>
+        <div class="box">
+            <label>New Password</label>
+            <input type="password" name="new_password" class="form-control" required>
+        </div>
+        <div class="box">
+            <label>Verify New Password</label>
+            <input type="password" name="verify_password" class="form-control" required>
+        </div>
+        {% if password_changed %}
+        <div class="success-message">
+          <span>{{ password_changed }}</span>
+        </div>
+        {% endif %}
+        {% if password_not_changed %}
+        <div class="error-message">
+          <span>{{ password_not_changed }}</span>
+        </div>
+        {% endif %}
+        <input type="submit" class="btn-shape-blue" value="Change Password" />
+    </form>
+  </div>
+  {% if request.session.is_manager %}
+  <div class="manage p-20 bg-white bor-rad-10">
+    <h2 class="mt-0 mb-10">Add Admin</h2>
+    <form method="POST" action="{% url 'companyFrontend:add_admin' %}">
+      {% csrf_token %}
+      <div class="box">
+        <label for="email">Email</label>
+        <input type="email" name="email" required/>
+      </div>
+      <div class="box">
+        <label for="password">Password</label>
+        <input type="password" name="password" required/>
+      </div>
+      <div class="box">
+        <label for="verify">Verify Password</label>
+        <input type="password" name="verify" required/>
+      </div>
+      {% if admin_added %}
+      <div class="success-message">
+        <span>{{ admin_added }}</span>
+      </div>
+      {% endif %}
+      {% if admin_not_added %}
+      <div class="error-message">
+        <span>{{ admin_not_added }}</span>
+      </div>
+      {% endif %}
+      <input type="submit" class="btn-shape-blue" value="Add" />
+    </form>
+  </div>
+  <div class="manage p-20 bg-white bor-rad-10">
+    <h2 class="mt-0 mb-10">Remove Admin</h2>
+    <form method="POST" action="{% url 'companyFrontend:remove_admin' %}">
+      {% csrf_token %}
+      <div class="box">
+        <label for="remove_email">Admin Email</label>
+        <input type="email" name="remove_email" required/>
+      </div>
+      <div class="box">
+        <label for="password">Your Password (to confirm)</label>
+        <input type="password" name="password" required/>
+      </div>
+      {% if admin_not_removed %}
+      <div class="error-message">
+        <span>{{ admin_not_removed }}</span>
+      </div>
+      {% endif %}
+      {% if admin_removed %}
+      <div class="success-message">
+        <span>{{ admin_removed }}</span>
+      </div>
+      {% endif %}
+      <input type="submit" class="btn-shape-red" value="Remove Admin" />
+    </form>
+  </div>
+  {% endif %}
+  {% if admins %}
+  <div class="admins-list p-20 bg-white bor-rad-10">
+    <h2 class="mt-0 mb-10">Admins List</h2>
+    {% for admin in admins %}
+      <div class="admin-email">{{ admin.email }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+</section>
+
+{% endblock %}
